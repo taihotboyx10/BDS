@@ -1,63 +1,65 @@
 <template>
-    <form @submit.prevent="create">
-        <div>
-            <div>
-                <label for="">Beds</label>
-                <input type="number" name="beds" v-model="form.beds" />
-                <div>
-                    <p v-if="form.errors.beds" class="text-red-500">{{ form.errors.beds }}</p>
+    <form @submit.prevent="create" class="">
+        <div class="mx-auto max-w-md">
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Beds</label>
+                <input class="col-span-8 form-input" type="number" name="beds" v-model="form.beds" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.beds" class="form-error">{{ form.errors.beds }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Baths</label>
-                <input type="number" name="baths" v-model="form.baths" />
-                <div>
-                    <p v-if="form.errors.baths" class="text-red-500">{{ form.errors.baths }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Baths</label>
+                <input class="col-span-8 form-input" type="number" name="baths" v-model="form.baths" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.baths" class="form-error">{{ form.errors.baths }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Area</label>
-                <input type="number" name="area" v-model="form.area" />
-                <div>
-                    <p v-if="form.errors.area" class="text-red-500">{{ form.errors.area }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Area</label>
+                <input class="col-span-8 form-input" type="number" name="area" v-model="form.area" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.area" class="form-error">{{ form.errors.area }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">City</label>
-                <input type="text" name="city" v-model="form.city" />
-                <div>
-                    <p v-if="form.errors.city" class="text-red-500">{{ form.errors.city }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">City</label>
+                <input class="col-span-8 form-input" type="text" name="city" v-model="form.city" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.city" class="form-error">{{ form.errors.city }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Postal Code</label>
-                <input type="text" name="postal_code" v-model="form.code" />
-                <div>
-                    <p v-if="form.errors.code" class="text-red-500">{{ form.errors.code }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Postal Code</label>
+                <input class="col-span-8 form-input" type="text" name="postal_code" v-model="form.code" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.code" class="form-error">{{ form.errors.code }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Street</label>
-                <input type="text" name="street" v-model="form.street" />
-                <div>
-                    <p v-if="form.errors.street" class="text-red-500">{{ form.errors.street }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Street</label>
+                <input class="col-span-8 form-input" type="text" name="street" v-model="form.street" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.street" class="form-error">{{ form.errors.street }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Street number</label>
-                <input type="number" name="street_nr" v-model="form.street_nr" />
-                <div>
-                    <p v-if="form.errors.street_nr" class="text-red-500">{{ form.errors.street_nr }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Street number</label>
+                <input class="col-span-8 form-input" type="number" name="street_nr" v-model="form.street_nr" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.street_nr" class="form-error">{{ form.errors.street_nr }}</p>
                 </div>
             </div>
-            <div>
-                <label for="">Price</label>
-                <input type="number" name="price" v-model="form.price" />
-                <div>
-                    <p v-if="form.errors.price" class="text-red-500">{{ form.errors.price }}</p>
+            <div class="grid grid-cols-12 gap-2 items-center">
+                <label class="col-span-4 form-label" for="">Price</label>
+                <input class="col-span-8 form-input" type="number" name="price" v-model="form.price" />
+                <div class="col-span-8 col-start-5">
+                    <p v-if="form.errors.price" class="form-error">{{ form.errors.price }}</p>
                 </div>
             </div>
-            <button type="submit">Create</button>
+            <div class="mt-4 grid grid-cols-12 gap-2">
+                <button type="submit" class="submit-btn col-span-8 col-start-5 mx-auto">Create new</button>
+            </div>
         </div>
     </form>
 </template>

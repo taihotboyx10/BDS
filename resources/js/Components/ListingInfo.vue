@@ -1,6 +1,6 @@
 <template>
     <div>
-        〒 {{ listing.code }}, {{ listing.street }} {{ listing.street_nr }}, {{ listing.city }}
+        {{ listing.beds }} beds • {{ listing.baths }} baths • {{ listing.area }} m²
     </div>
 </template>
 
