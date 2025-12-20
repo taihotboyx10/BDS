@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@tailwind utilities;
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -8,4 +9,34 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+    .form-label {
+    @apply font-medium;;
+    }
+
+    .form-input {
+        @apply border border-gray-500 dark:border-none dark:bg-white dark:text-gray-800 rounded-md p-2;
+    }
+
+    .link-btn {
+        @apply border-2 rounded-md p-1
+                     border-sky-900 text-sky-900
+                     hover:bg-sky-900 hover:text-white
+                     dark:border-sky-300 dark:text-sky-300
+                     dark:hover:bg-sky-300 dark:hover:text-sky-900;
+    }
+
+    .submit-btn {
+        @apply w-24 cursor-pointer border-2 rounded-md p-1 
+                         bg-sky-900 text-white border-sky-900
+                         hover:border-sky-900 hover:text-sky-900 hover:bg-white
+                         dark:text-white dark:border-sky-300 dark:bg-sky-300
+                         dark:hover:bg-white dark:hover:text-sky-900 dark:hover:border-white;
+    }
+
+    .form-error {
+        @apply text-red-500 text-sm dark:text-red-400;
+    }
 }
