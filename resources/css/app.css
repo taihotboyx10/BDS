@@ -21,7 +21,7 @@
     }
 
     .link-btn {
-        @apply border-2 rounded-md p-1
+        @apply border-2 rounded-md p-1 cursor-pointer
                      border-sky-900 text-sky-900
                      hover:bg-sky-900 hover:text-white
                      dark:border-sky-300 dark:text-sky-300
