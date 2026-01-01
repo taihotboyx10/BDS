@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Listing;
 
 class ListingController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        // use authorization policy in each controller method
+        $this->authorize('viewAny', Listing::class);
+
         return Inertia('Listings/Index', [
             'listings' => Listing::all(),
         ]);
@@ -30,7 +36,7 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        Listing::create($request->validate([
+        $listing = $request->validate([
             'beds' => 'required|integer|min:0|max:5',
             'baths' => 'required|integer|min:0|max:5',
             'area' => 'required|integer|min:20|max:500',
@@ -39,7 +45,9 @@ class ListingController extends Controller
             'street' => 'required',
             'street_nr' => 'required|integer|min:0|max:9999',
             'price' => 'required|integer|min:1000|max:1000000',
-        ]));
+        ]);
+
+        $request->user()->listings()->create($listing);
 
         return redirect()->route('listings.index')
             ->with('success', 'Listing created successfully.');
@@ -50,6 +58,8 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
+        $this->authorize('view', $listing);
+
         return Inertia('Listings/Show', [
             'listing' => $listing,
         ]);
@@ -70,6 +80,8 @@ class ListingController extends Controller
      */
     public function update(Request $request, Listing $listing)
     {
+        $this->authorize('update', $listing);
+
         $listing->update($request->validate([
             'beds' => 'required|integer|min:0|max:5',
             'baths' => 'required|integer|min:0|max:5',
@@ -90,6 +102,8 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
+        $this->authorize('forceDelete', $listing);
+
         $listing->delete();
 
         return redirect()->route('listings.index')
