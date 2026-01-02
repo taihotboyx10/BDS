@@ -13,13 +13,18 @@ class ListingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // use authorization policy in each controller method
         $this->authorize('viewAny', Listing::class);
 
+        $filters = $request->only(['price_from', 'price_to', 'beds', 'baths', 'area_from', 'area_to']);
+        // dd($filters);
+        $listings = Listing::filter($filters)->mostRecent()->paginate(5)->withQueryString();
+
         return Inertia('Listings/Index', [
-            'listings' => Listing::all(),
+            'filters' => $filters,
+            'listings' => $listings,
         ]);
     }
 
