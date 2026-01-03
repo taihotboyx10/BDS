@@ -1,11 +1,11 @@
 <template>
     <Filter :filters="filters"></Filter>
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ListingMain v-for="listing in listings.data" :key="listing.id" :listing="listing">
         </ListingMain>
     </div>
 
-    <Pagination :listings="listings"/>
+    <Pagination :listings="listings" v-if="listings.data.length"/>
 </template>
 
 <script setup>

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Listing extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'beds',
@@ -27,6 +28,12 @@ class Listing extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function scopeMostRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    // filter in listings section
     public function scopeFilter($query, $filters)
     {
         if (isset($filters['price_from'])) {
@@ -51,8 +58,30 @@ class Listing extends Model
         return $query;
     }
 
-    public function scopeMostRecent($query)
-    {
-        return $query->orderBy('created_at', 'desc');
+    // filter in realtor listing section
+    public function scopeRealtorFilter($query, $filters){
+        if (isset($filters['deleted']) && $filters['deleted'] === 'true') {
+            $query->withTrashed();
+        }
+
+        if (isset($filters['sortBy'])){
+            if ($filters['sortBy'] === 'price'){
+                if ($filters['sortStyle'] === 'asc'){
+                    $query->orderBy('price', 'asc');
+                } else {
+                    $query->orderBy('price', 'desc');
+                }
+            }
+
+            if ($filters['sortBy'] === 'created_at'){
+                if ($filters['sortStyle'] === 'asc'){
+                    $query->orderBy('created_at', 'asc');
+                } else {
+                    $query->orderBy('created_at', 'desc');
+                }
+            }
+        }
+
+        return $query;
     }
 }

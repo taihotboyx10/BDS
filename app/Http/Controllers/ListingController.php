@@ -19,99 +19,12 @@ class ListingController extends Controller
         $this->authorize('viewAny', Listing::class);
 
         $filters = $request->only(['price_from', 'price_to', 'beds', 'baths', 'area_from', 'area_to']);
-        // dd($filters);
+
         $listings = Listing::filter($filters)->mostRecent()->paginate(5)->withQueryString();
 
         return Inertia('Listings/Index', [
             'filters' => $filters,
             'listings' => $listings,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia('Listings/Create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $listing = $request->validate([
-            'beds' => 'required|integer|min:0|max:5',
-            'baths' => 'required|integer|min:0|max:5',
-            'area' => 'required|integer|min:20|max:500',
-            'city' => 'required',
-            'code' => 'required',
-            'street' => 'required',
-            'street_nr' => 'required|integer|min:0|max:9999',
-            'price' => 'required|integer|min:1000|max:1000000',
-        ]);
-
-        $request->user()->listings()->create($listing);
-
-        return redirect()->route('listings.index')
-            ->with('success', 'Listing created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Listing $listing)
-    {
-        $this->authorize('view', $listing);
-
-        return Inertia('Listings/Show', [
-            'listing' => $listing,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Listing $listing)
-    {
-        return Inertia('Listings/Edit', [
-            'listing' => $listing,
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Listing $listing)
-    {
-        $this->authorize('update', $listing);
-
-        $listing->update($request->validate([
-            'beds' => 'required|integer|min:0|max:5',
-            'baths' => 'required|integer|min:0|max:5',
-            'area' => 'required|integer|min:20|max:500',
-            'city' => 'required',
-            'code' => 'required',
-            'street' => 'required',
-            'street_nr' => 'required|integer|min:0|max:9999',
-            'price' => 'required|integer|min:1000|max:1000000',
-        ]));
-
-        return redirect()->route('listings.index')
-            ->with('success', 'Listing updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Listing $listing)
-    {
-        $this->authorize('forceDelete', $listing);
-
-        $listing->delete();
-
-        return redirect()->route('listings.index')
-            ->with('success', 'Listing deleted successfully.');
     }
 }
