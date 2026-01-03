@@ -29,7 +29,7 @@
     }
 
     .submit-btn {
-        @apply w-24 cursor-pointer border-2 rounded-md p-1 
+        @apply w-full cursor-pointer border-2 rounded-md p-1
                          bg-sky-900 text-white border-sky-900
                          hover:border-sky-900 hover:text-sky-900 hover:bg-white
                          dark:text-white dark:border-sky-300 dark:bg-sky-300

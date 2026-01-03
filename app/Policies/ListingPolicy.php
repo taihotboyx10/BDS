@@ -53,7 +53,8 @@ class ListingPolicy
      */
     public function delete(User $user, Listing $listing): bool
     {
-        return true;
+        $ability = $user->id === $listing->user_id;
+        return $ability;
     }
 
     /**
@@ -61,7 +62,8 @@ class ListingPolicy
      */
     public function restore(User $user, Listing $listing): bool
     {
-        return true;
+        $ability = $user->id === $listing->user_id;
+        return $ability;
     }
 
     /**

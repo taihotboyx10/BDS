@@ -11,11 +11,11 @@
                 <div class="flex items-center gap-4">
                     <div class="text-lg">
                         <div v-if="authUser" class="flex items-center gap-4">
-                            <p>{{ authUser.name }}</p>
+                            <Link :href="route('realtor.listing.index')">{{ authUser.name }}</Link>
                             <Link v-if="authUser" :href="route('logout')" method="post" as="button" class="link-btn">
                                 Logout
                             </Link>
-                            <Link :href="route('listings.create')" class="link-btn">
+                            <Link :href="route('realtor.listing.create')" class="link-btn">
                                 + New listing
                             </Link>
                         </div>
