@@ -18,15 +18,20 @@
                     </div>
                     <div class="form-error" v-if="listing.deleted_at">This listing has been deleted.</div>
                 </div>
-                <div class="flex items-center gap-1" v-if="!listing.deleted_at">
-                    <a class="link-btn" :href="route('realtor.listing.show', listing.id)" target="_blank">preview</a>
-                    <Link class="link-btn" :href="route('realtor.listing.edit', listing.id)">edit</Link>
-                    <Link class="submit-btn" :href="route('realtor.listing.destroy', listing.id)" method="delete" as="button">delete</Link>
+                <div class="flex flex-col gap-1 justify-between" v-if="!listing.deleted_at">
+                    <div class="flex items-center gap-1">
+                        <a class="link-btn" :href="route('realtor.listing.show', listing.id)" target="_blank">preview</a>
+                        <Link class="link-btn" :href="route('realtor.listing.edit', listing.id)">edit</Link>
+                        <Link class="submit-btn" :href="route('realtor.listing.destroy', listing.id)" method="delete" as="button">delete</Link>
+                    </div>
+                    <div>
+                        <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.img.create', listing.id)">manage images({{ listing.listing_img_cnt }})</Link>
+                    </div>
                 </div>
                 <div v-else>
                     <Link class="submit-btn" :href="route('realtor.listing.restore', listing.id)" method="put" as="button">restore</Link>
                 </div>
-            </div>
+            </div> 
         </Box>
     </section>
 

@@ -17,10 +17,15 @@ class RealtorListingController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Listing::class);
-        // dd($request->all());
+
         $filters = $request->only(['deleted', 'sortBy', 'sortStyle']);
 
-        $listings = Auth::user()->listings()->realtorFilter($filters)->mostRecent()->paginate(5)->withqueryString();
+        $listings = Auth::user()->listings()
+                    ->realtorFilter($filters)
+                    ->mostRecent()
+                    // ->withCount('listingImgs')
+                    ->paginate(5)
+                    ->withQueryString();
 
         return inertia('Realtor/Index', [
             'filterParams' => $filters,
