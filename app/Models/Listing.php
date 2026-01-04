@@ -22,10 +22,16 @@ class Listing extends Model
         'street_nr',
         'price',
     ];
+    protected $appends = ['listing_img_cnt'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function listingImgs()
+    {
+        return $this->hasMany(ListingImg::class, 'listing_id');
     }
 
     public function scopeMostRecent($query)
@@ -83,5 +89,10 @@ class Listing extends Model
         }
 
         return $query;
+    }
+
+    public function getListingImgCntAttribute()
+    {
+        return $this->listingImgs()->count();
     }
 }

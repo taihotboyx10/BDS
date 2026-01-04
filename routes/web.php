@@ -6,6 +6,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\RealtorListingController;
+use App\Http\Controllers\ListingImgController;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/show', [IndexController::class, 'show']);
@@ -30,4 +31,6 @@ Route::prefix('realtor')
     Route::put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
         ->name('listing.restore')
         ->withTrashed();
+    Route::resource('listing.img', ListingImgController::class)
+        ->only(['create','store', 'destroy']);
 });
