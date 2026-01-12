@@ -24,6 +24,7 @@ class RealtorListingController extends Controller
                     ->realtorFilter($filters)
                     ->mostRecent()
                     // ->withCount('listingImgs')
+                    ->withCount('offers')
                     ->paginate(5)
                     ->withQueryString();
 
@@ -41,7 +42,7 @@ class RealtorListingController extends Controller
         $this->authorize('view', $listing);
 
         return Inertia('Realtor/Show', [
-            'listing' => $listing,
+            'listing' => $listing->load(['offers.user']),
         ]);
     }
 
@@ -118,7 +119,7 @@ class RealtorListingController extends Controller
 
         return back()->with('success', 'Listing deleted successfully.');
     }
-
+    
     public function restore(Listing $listing)
     {
         $this->authorize('restore', $listing);

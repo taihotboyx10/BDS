@@ -39,4 +39,12 @@
     .form-error {
         @apply text-red-500 text-sm dark:text-red-400;
     }
+
+    .accepted-label {
+        @apply bg-green-300 rounded-sm p-1;
+    }
+
+    .sold-label {
+        @apply p-1 border rounded-sm border-green-300 text-green-500 font-bold;
+    }
 }

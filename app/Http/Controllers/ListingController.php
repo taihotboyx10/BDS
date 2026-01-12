@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Listing;
+use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
 {
@@ -25,6 +26,21 @@ class ListingController extends Controller
         return Inertia('Listings/Index', [
             'filters' => $filters,
             'listings' => $listings,
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Listing $listing)
+    {
+        $this->authorize('view', $listing);
+
+        $offer = $listing->offers()->getOffer(Auth::user()?->id)->first();
+
+        return Inertia('Listings/Show', [
+            'listing' => $listing,
+            'offer' => $offer,
         ]);
     }
 }

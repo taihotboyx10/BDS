@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Listing extends Model
 {
@@ -22,7 +23,7 @@ class Listing extends Model
         'street_nr',
         'price',
     ];
-    protected $appends = ['listing_img_cnt'];
+    protected $appends = ['listing_img_cnt', 'is_solded'];
 
     public function user(): BelongsTo
     {
@@ -34,6 +35,11 @@ class Listing extends Model
         return $this->hasMany(ListingImg::class, 'listing_id');
     }
 
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'listing_id');
+    }
+
     public function scopeMostRecent($query)
     {
         return $query->orderBy('created_at', 'desc');
@@ -42,6 +48,11 @@ class Listing extends Model
     // filter in listings section
     public function scopeFilter($query, $filters)
     {
+        // loại bỏ những model offer mà acceped_at không null
+        $query->whereDoesntHave('offers', function ($q) {
+            $q->whereNotNull('acceped_at');
+        });
+
         if (isset($filters['price_from'])) {
             $query->where('price', '>=', $filters['price_from']);
         }
@@ -65,22 +76,23 @@ class Listing extends Model
     }
 
     // filter in realtor listing section
-    public function scopeRealtorFilter($query, $filters){
+    public function scopeRealtorFilter($query, $filters)
+    {
         if (isset($filters['deleted']) && $filters['deleted'] === 'true') {
             $query->withTrashed();
         }
 
-        if (isset($filters['sortBy'])){
-            if ($filters['sortBy'] === 'price'){
-                if ($filters['sortStyle'] === 'asc'){
+        if (isset($filters['sortBy'])) {
+            if ($filters['sortBy'] === 'price') {
+                if ($filters['sortStyle'] === 'asc') {
                     $query->orderBy('price', 'asc');
                 } else {
                     $query->orderBy('price', 'desc');
                 }
             }
 
-            if ($filters['sortBy'] === 'created_at'){
-                if ($filters['sortStyle'] === 'asc'){
+            if ($filters['sortBy'] === 'created_at') {
+                if ($filters['sortStyle'] === 'asc') {
                     $query->orderBy('created_at', 'asc');
                 } else {
                     $query->orderBy('created_at', 'desc');
@@ -94,5 +106,10 @@ class Listing extends Model
     public function getListingImgCntAttribute()
     {
         return $this->listingImgs()->count();
+    }
+
+    public function getIsSoldedAttribute()
+    {
+        return $this->offers()->whereNotNull('acceped_at')->exists();
     }
 }

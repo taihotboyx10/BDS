@@ -9,7 +9,10 @@
         <Box v-for="listing in listings.data" :key="listing.id">
             <div class="flex flex-col md:flex-row md:items-center justify-between">
                 <div class="flex flex-col">
-                    <div class="flex flex-col lg:flex-row lg:items-center gap-2">
+                    <div v-if="listing.is_solded" class="sold-label w-16 flex justify-center">
+                        SOLD
+                    </div>
+                    <div class="flex flex-col lg:flex-row lg:items-center gap-2 mt-2">
                         <ListingPrice :price="listing.price" class="font-bold text-lg"></ListingPrice>
                         <ListingInfo :listing="listing" class="text-sm"></ListingInfo>
                     </div>
@@ -27,6 +30,9 @@
                     <div>
                         <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.img.create', listing.id)">manage images({{ listing.listing_img_cnt }})</Link>
                     </div>
+                    <div>
+                        <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.show', listing.id)">offers({{ listing.offers_count }})</Link>
+                    </div>
                 </div>
                 <div v-else>
                     <Link class="submit-btn" :href="route('realtor.listing.restore', listing.id)" method="put" as="button">restore</Link>
@@ -43,12 +49,12 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import ListingAddress from '../../Components/ListingAddress.vue';
-import ListingInfo from '../../Components/ListingInfo.vue';
-import ListingPrice from '../../Components/ListingPrice.vue';
-import Box from '../../Components/UI/Box.vue';
+import ListingAddress from '@/Components/ListingAddress.vue';
+import ListingInfo from '@/Components/ListingInfo.vue';
+import ListingPrice from '@/Components/ListingPrice.vue';
+import Box from '@/Components/UI/Box.vue';
 import RealtorFilter from './Components/RealtorFilter.vue';
-import Pagination from '../../Components/UI/Pagination.vue';
+import Pagination from '@/Components/UI/Pagination.vue';
 
 defineProps({
     filterParams: Object,
