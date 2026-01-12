@@ -1,7 +1,7 @@
 <template>
     <Box>
         <div>
-            <Link :href="route('realtor.listing.show', listing.id)">
+            <Link :href="route('listings.show', listing.id)">
                 <div class="flex items-center gap-2">
                     <ListingPrice :price="listing.price" class="font-bold text-2xl" />
                     <ListingPrice :price="monthlyPayment" class="text-md text-gray-500 dark:text-gray-200" />
@@ -24,11 +24,11 @@
 <script setup>
 import { Link,usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import Box from '../../../Components/UI/Box.vue';
-import ListingAddress from '../../../Components/ListingAddress.vue';
-import ListingInfo from '../../../Components/ListingInfo.vue';
-import ListingPrice from '../../../Components/ListingPrice.vue';
-import { useMonthlyPayment } from '../../../Composables/useMonthlyPayment';
+import Box from '@/Components/UI/Box.vue';
+import ListingAddress from '@/Components/ListingAddress.vue';
+import ListingInfo from '@/Components/ListingInfo.vue';
+import ListingPrice from '@/Components/ListingPrice.vue';
+import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
 import { computed } from 'vue';
 
 const props = defineProps({

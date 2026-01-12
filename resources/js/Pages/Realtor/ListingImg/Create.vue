@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import Box from '../../../Components/UI/Box.vue';
+import Box from '@/Components/UI/Box.vue';
 import { useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';

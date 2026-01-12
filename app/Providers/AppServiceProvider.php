@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Listing;
+use App\Models\Offer;
+use App\Policies\ListingPolicy;
+use App\Policies\OfferPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(Listing::class, ListingPolicy::class);
+        Gate::policy(Offer::class, OfferPolicy::class);
     }
 }

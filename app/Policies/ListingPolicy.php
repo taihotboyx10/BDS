@@ -4,16 +4,15 @@ namespace App\Policies;
 
 use App\Models\Listing;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ListingPolicy
 {
-    public function before(?User $user, $ability)
-    {
-        if ($user?->is_admin /* && $ability === 'update' */) {
-            return true;
-        }
-    }
+    // public function before(?User $user, $ability)
+    // {
+    //     if ($user?->is_admin /* && $ability === 'update' */) {
+    //         return true;
+    //     }
+    // }
 
     /**
      * Determine whether the user can view any models.
@@ -28,7 +27,11 @@ class ListingPolicy
      */
     public function view(?User $user, Listing $listing): bool
     {
-        return true;
+        if ($listing->user_id === $user?->id || !$user){
+            return true;
+        }
+
+        return !$listing->is_solded;
     }
 
     /**
