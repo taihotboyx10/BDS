@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use App\Models\Offer;
+use App\Notifications\OfferMade;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,11 @@ class ListingOfferController extends Controller
             'amount' => 'required|integer'
         ]);
 
-        Auth::user()->offers()->create([
+        $offer = Auth::user()->offers()->create([
             'listing_id' => $listing->id,
             'amount' => $data['amount'],
         ]);
+        $listing->user->notify(new OfferMade($offer));
 
         return redirect()->back()->with('success', 'Make offer done!');
     }

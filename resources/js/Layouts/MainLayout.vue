@@ -11,7 +11,14 @@
                 <div class="flex items-center gap-4">
                     <div class="text-lg">
                         <div v-if="authUser" class="flex items-center gap-4">
+                            <Link :href="route('notification.index')" class="relative">
+                                🔔
+                                <div v-if="notiCnt > 0" class="absolute top-0 right-0 w-4 h-4 rounded-full bg-red-600 text-white text-xs flex items-center justify-center">
+                                    {{ notiCnt }}
+                                </div>
+                            </Link>
                             <Link :href="route('realtor.listing.index')">{{ authUser.name }}</Link>
+
                             <Link v-if="authUser" :href="route('logout')" method="post" as="button" class="link-btn">
                                 Logout
                             </Link>
@@ -49,11 +56,13 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { route } from 'ziggy-js';
 
 const page = usePage();
 
 const msgSuccess = computed(() => page.props.flash.success);
 const msgError = computed(() => page.props.flash.error);
 const authUser = computed(() => page.props.auth.user);
+const notiCnt = computed(() => page.props.auth.user.notificationCount);
 
 </script>

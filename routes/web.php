@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\ListingImgController;
 use App\Http\Controllers\ListingOfferController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RealtorListingAcceptController;
 
 Route::get('/', [IndexController::class, 'index']);
@@ -41,3 +42,7 @@ Route::prefix('realtor')
 Route::resource('listing.offer', ListingOfferController::class)
     ->middleware('auth')
     ->only(['store']);
+
+Route::resource('notification', NotificationController::class)
+    ->only(['index', 'update'])
+    ->middleware('auth');

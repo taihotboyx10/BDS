@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
         <Box class="md:col-span-7 sm:col-span-12 flex items-center justify-center">
-            <div class="">
+            <div class="no-item-found">
                 No images(TODO: use swiper to display images)
             </div>
         </Box>
