@@ -12,6 +12,14 @@
 }
 
 @layer components {
+    .h1-heading {
+        @apply text-3xl mb-4 font-bold
+    }
+
+    .no-item-found {
+        @apply text-gray-400
+    }
+
     .form-label {
     @apply font-medium;;
     }

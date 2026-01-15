@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-3xl mb-4 font-bold">My listings</h1>
+    <h1 class="h1-heading">My listings</h1>
 
     <section>
         <RealtorFilter :filterParams="filterParams"></RealtorFilter>
