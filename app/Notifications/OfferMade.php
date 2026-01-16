@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OfferMade extends Notification
+class OfferMade extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,7 +27,7 @@ class OfferMade extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -36,8 +36,9 @@ class OfferMade extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject('New Offer Made')
             ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
+            ->action('Notification Action', route('realtor.listing.show', $this->offer->listing_id))
             ->line('Thank you for using our application!');
     }
 

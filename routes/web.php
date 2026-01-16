@@ -24,10 +24,20 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterUserController::class, 'showRegistrationForm'])->name('show.register');
 Route::post('register', [RegisterUserController::class, 'register'])->name('register');
 
+Route::get('email/verify', [AuthController::class, 'showVerifyEmailNotice'])
+    ->middleware('auth')
+    ->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
+Route::post('email/resend', [AuthController::class, 'resendVerificationEmail'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.resend');
+
 // realtor route group
 Route::prefix('realtor')
     ->name('realtor.')
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
 ->group(function () {
     Route::resource('listing', RealtorListingController::class);
     Route::put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
