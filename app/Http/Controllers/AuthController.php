@@ -45,4 +45,33 @@ class AuthController extends Controller
 
         return redirect()->route('listings.index');
     }
+
+    public function showVerifyEmailNotice()
+    {
+        return Inertia('Auth/VerifyEmail');
+    }
+
+    public function verifyEmail(Request $request, $id, $hash)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('listings.index');
+        }
+
+        if ($request->user()->markEmailAsVerified()) {
+            //
+        }
+
+        return redirect()->route('listings.index')->with('success', 'Email verified successfully!');
+    }
+
+    public function resendVerificationEmail(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('listings.index');
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Verification link sent,please check your email!');
+    }
 }
