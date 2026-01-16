@@ -1,8 +1,24 @@
 <template>
     <div class="flex flex-col-reverse md:grid md:grid-cols-12 gap-4">
-        <Box class="md:col-span-7 sm:col-span-12 flex items-center justify-center">
+        <Box v-if="props.listing.listing_imgs.length === 0" class="md:col-span-7 sm:col-span-12 flex items-center justify-center">
             <div class="no-item-found">
                 No images(TODO: use swiper to display images)
+            </div>
+        </Box>
+        <Box v-else class="md:col-span-7 sm:col-span-12">
+            <div class="w-full h-[400px]">
+                <Swiper :modules="[Navigation, Pagination, Thumbs]" :thumbs="{ swiper: thumbsSwiper }" navigation
+                    pagination loop class="w-full h-full">
+                    <SwiperSlide v-for="(img, index) in props.listing.listing_imgs" :key="index">
+                        <img :src="img.image_url" class="w-full h-full object-cover rounded-lg" />
+                    </SwiperSlide>
+                </Swiper>
+                <!-- Thumbs -->
+                <Swiper @swiper="thumbsSwiper = $event" slides-per-view="4" space-between="5" class="mt-2">
+                    <SwiperSlide v-for="(img, index) in props.listing.listing_imgs" :key="index">
+                        <img :src="img.image_url" class="w-full h-full object-cover rounded-sm">
+                    </SwiperSlide>
+                </Swiper>
             </div>
         </Box>
         <Box class="md:col-span-5 sm:col-span-12 ">
@@ -49,7 +65,8 @@
 
                 <!-- make offer -->
                 <MakeOffer @updated-offer="offer = $event" v-if="authUser" class="mt-4"
-                    :listingPrice="props.listing.price" :listingId="props.listing.id" :offer="props.offer" :listingUserId="listing.user_id"></MakeOffer>
+                    :listingPrice="props.listing.price" :listingId="props.listing.id" :offer="props.offer"
+                    :listingUserId="listing.user_id"></MakeOffer>
             </Box>
         </Box>
     </div>
@@ -65,7 +82,14 @@ import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
 import MakeOffer from './Components/MakeOffer.vue';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import { Navigation, Pagination, Thumbs } from 'swiper/modules';
 
+const thumbsSwiper = ref(null);
 const page = usePage();
 const authUser = computed(() => page.props.auth.user);
 const interestRate = ref(2.5);
