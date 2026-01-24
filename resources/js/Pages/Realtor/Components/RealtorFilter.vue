@@ -1,10 +1,17 @@
 <template>
     <form>
         <div class="flex items-center gap-2 mb-2">
-            <div class="flex items-center gap-1">
-                <input v-model="filters.deleted" id="deleted" type="checkbox"
-                    class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-800">
-                <label for="deleted">deleted</label>
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1">
+                    <input v-model="filters.solded" id="solded" type="checkbox"
+                        class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-800">
+                    <label for="solded">solded</label>
+                </div>
+                <div class="flex items-center gap-1">
+                    <input v-model="filters.deleted" id="deleted" type="checkbox"
+                        class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-800">
+                    <label for="deleted">deleted</label>
+                </div>
             </div>
 
             <div>
@@ -55,6 +62,7 @@ const props = defineProps({
     filterParams: Object,
 });
 const filters = reactive({
+    solded: props.filterParams.solded ?? true,
     deleted: props.filterParams.deleted ?? false,
     sortBy: props.filterParams.sortBy ?? 'created_at',
     sortStyle: props.filterParams.sortStyle ?? 'desc'

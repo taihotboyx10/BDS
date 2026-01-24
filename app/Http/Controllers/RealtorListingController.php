@@ -18,15 +18,15 @@ class RealtorListingController extends Controller
     {
         $this->authorize('viewAny', Listing::class);
 
-        $filters = $request->only(['deleted', 'sortBy', 'sortStyle']);
+        $filters = $request->only(['solded', 'deleted', 'sortBy', 'sortStyle']);
 
         $listings = Auth::user()->listings()
-                    ->realtorFilter($filters)
-                    ->mostRecent()
-                    // ->withCount('listingImgs')
-                    ->withCount('offers')
-                    ->paginate(5)
-                    ->withQueryString();
+            ->realtorFilter($filters)
+            ->mostRecent()
+            ->withCount('listingImgs')
+            ->withCount('offers')
+            ->paginate(8)
+            ->withQueryString();
 
         return inertia('Realtor/Index', [
             'filterParams' => $filters,
@@ -93,6 +93,11 @@ class RealtorListingController extends Controller
     {
         $this->authorize('update', $listing);
 
+        if ($listing->checkIsHasOffer()) {
+            return redirect()->route('realtor.listing.index')
+                ->with('error', "You can't update or delete listing when has offer made.");
+        }
+
         $listing->update($request->validate([
             'beds' => 'required|integer|min:0|max:5',
             'baths' => 'required|integer|min:0|max:5',
@@ -115,11 +120,15 @@ class RealtorListingController extends Controller
     {
         $this->authorize('delete', $listing);
 
+        if ($listing->checkIsHasOffer()) {
+            return back()->with('error', "You can't update or delete listing when has offer made.");
+        }
+
         $listing->deleteOrFail();
 
         return back()->with('success', 'Listing deleted successfully.');
     }
-    
+
     public function restore(Listing $listing)
     {
         $this->authorize('restore', $listing);

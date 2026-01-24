@@ -8,11 +8,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function register()
-    {
-        // Registration logic here
-    }
-
     public function dspLoginForm()
     {
         return inertia('Auth/Login');

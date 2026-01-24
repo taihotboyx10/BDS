@@ -21,7 +21,10 @@ class ListingController extends Controller
 
         $filters = $request->only(['price_from', 'price_to', 'beds', 'baths', 'area_from', 'area_to']);
 
-        $listings = Listing::filter($filters)->mostRecent()->paginate(5)->withQueryString();
+        $listings = Listing::filter($filters)
+            ->mostRecent()
+            ->paginate(5)
+            ->withQueryString();
 
         return Inertia('Listings/Index', [
             'filters' => $filters,

@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <Link :href="route('realtor.listing.index')">🔙Go back to listings</Link>
+        <Link :href="route('realtor.listing.index', filtersStore.filtersObject)">🔙Go back to listings</Link>
     </div>
     <div class="flex flex-col-reverse md:grid md:grid-cols-2 gap-4">
         <div class="flex flex-col gap-2">
@@ -33,7 +33,11 @@
                     </div>
                 </Box>
             </div>
-            <Box v-else>No offers</Box>
+            <Box v-else>
+                <div class="no-item-found">
+                    No offers
+                </div>
+            </Box>
         </div>
         <div>
             <Box>
@@ -57,7 +61,9 @@ import ListingInfo from '@/Components/ListingInfo.vue';
 import ListingAddress from '@/Components/ListingAddress.vue';
 import { useConvertDate } from '@/Composables/useConvertDate';
 import { route } from 'ziggy-js';
+import { useRealtorFiltersStore } from '@/stores/realtorFilterStore';
 
+const filtersStore = useRealtorFiltersStore();
 const props = defineProps({
     listing: Object
 })
