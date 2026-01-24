@@ -6,7 +6,7 @@
             </div>
         </Box>
         <Box v-else class="md:col-span-7 sm:col-span-12">
-            <div class="w-full h-[400px]">
+            <div class="w-full h-100">
                 <Swiper :modules="[Navigation, Pagination, Thumbs]" :thumbs="{ swiper: thumbsSwiper }" navigation
                     pagination loop class="w-full h-full">
                     <SwiperSlide v-for="(img, index) in props.listing.listing_imgs" :key="index">

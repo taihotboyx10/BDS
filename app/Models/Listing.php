@@ -22,8 +22,8 @@ class Listing extends Model
         'street',
         'street_nr',
         'price',
+        'is_solded',
     ];
-    protected $appends = ['listing_img_cnt', 'is_solded'];
 
     public function user(): BelongsTo
     {
@@ -82,34 +82,26 @@ class Listing extends Model
             $query->withTrashed();
         }
 
+        if (isset($filters['solded']) && $filters['solded'] === 'false') {
+            $query->where('is_solded', false);
+        }
+
         if (isset($filters['sortBy'])) {
+            $sortStyle = $filters['sortStyle'] ?? 'desc';
             if ($filters['sortBy'] === 'price') {
-                if ($filters['sortStyle'] === 'asc') {
-                    $query->orderBy('price', 'asc');
-                } else {
-                    $query->orderBy('price', 'desc');
-                }
+                $query->orderBy('price', $sortStyle);
             }
 
             if ($filters['sortBy'] === 'created_at') {
-                if ($filters['sortStyle'] === 'asc') {
-                    $query->orderBy('created_at', 'asc');
-                } else {
-                    $query->orderBy('created_at', 'desc');
-                }
+                $query->orderBy('created_at', $sortStyle);
             }
         }
 
         return $query;
     }
 
-    public function getListingImgCntAttribute()
+    public function checkIsHasOffer(): bool
     {
-        return $this->listingImgs()->count();
-    }
-
-    public function getIsSoldedAttribute()
-    {
-        return $this->offers()->whereNotNull('acceped_at')->exists();
+        return $this->offers()->whereNull('acceped_at')->exists();
     }
 }

@@ -1,6 +1,9 @@
 <template>
     <Filter :filters="filters"></Filter>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div v-if="listings.data.length === 0" class="no-item-found flex justify-center">
+        No listings found.
+    </div>
+    <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ListingMain v-for="listing in listings.data" :key="listing.id" :listing="listing">
         </ListingMain>
     </div>
@@ -17,6 +20,5 @@ defineProps({
     listings: Object,
     filters: Object,
 });
-
 
 </script>

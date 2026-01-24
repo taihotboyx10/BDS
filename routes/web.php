@@ -11,9 +11,6 @@ use App\Http\Controllers\ListingOfferController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RealtorListingAcceptController;
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/show', [IndexController::class, 'show']);
-
 Route::resource('listings', ListingController::class)
     ->only(['index', 'show']);
 
@@ -38,7 +35,7 @@ Route::post('email/resend', [AuthController::class, 'resendVerificationEmail'])
 Route::prefix('realtor')
     ->name('realtor.')
     ->middleware(['auth', 'verified'])
-->group(function () {
+    ->group(function () {
     Route::resource('listing', RealtorListingController::class);
     Route::put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
         ->name('listing.restore')
@@ -50,9 +47,13 @@ Route::prefix('realtor')
 });
 
 Route::resource('listing.offer', ListingOfferController::class)
-    ->middleware('auth')
-    ->only(['store']);
+    ->only(['store'])
+    ->middleware(['auth', 'verified']);
 
 Route::resource('notification', NotificationController::class)
     ->only(['index', 'update'])
     ->middleware('auth');
+
+Route::get('/', function () {
+    return redirect()->route('listings.index');
+    })->name('home');

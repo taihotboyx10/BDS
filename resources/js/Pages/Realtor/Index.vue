@@ -5,7 +5,7 @@
         <RealtorFilter :filterParams="filterParams"></RealtorFilter>
     </section>
 
-    <section class="grid md:grid-cols-2 gap-4">
+    <section v-if="listings.data.length" class="grid md:grid-cols-2 gap-4">
         <Box v-for="listing in listings.data" :key="listing.id">
             <div class="flex flex-col md:flex-row md:items-center justify-between">
                 <div class="flex flex-col">
@@ -28,7 +28,7 @@
                         <Link class="submit-btn" :href="route('realtor.listing.destroy', listing.id)" method="delete" as="button">delete</Link>
                     </div>
                     <div>
-                        <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.img.create', listing.id)">manage images({{ listing.listing_img_cnt }})</Link>
+                        <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.img.create', listing.id)">manage images({{ listing.listing_imgs_count }})</Link>
                     </div>
                     <div>
                         <Link class="link-btn flex w-full justify-center" :href="route('realtor.listing.show', listing.id)">offers({{ listing.offers_count }})</Link>
@@ -40,6 +40,9 @@
             </div> 
         </Box>
     </section>
+    <div v-else class="no-item-found flex justify-center">
+        No listings found.
+    </div>
 
     <section v-if="listings.data.length">
         <Pagination :listings="listings"></Pagination>
@@ -55,9 +58,19 @@ import ListingPrice from '@/Components/ListingPrice.vue';
 import Box from '@/Components/UI/Box.vue';
 import RealtorFilter from './Components/RealtorFilter.vue';
 import Pagination from '@/Components/UI/Pagination.vue';
+import { useRealtorFiltersStore } from '@/stores/realtorFilterStore';
+import { watch, onMounted } from 'vue';
 
-defineProps({
+const props = defineProps({
     filterParams: Object,
     listings: Object
 });
+const filtersStore = useRealtorFiltersStore();
+
+// save filter to store when filter changed
+watch(() => props.filterParams, (newVal) => {
+    filtersStore.setFilters(newVal);
+});
+
+
 </script>
